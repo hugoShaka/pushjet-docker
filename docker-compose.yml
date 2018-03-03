@@ -1,0 +1,25 @@
+version: '3'
+services:
+  pushjet:
+    build:
+      context: .
+      dockerfile: pushjet/Dockerfile
+    environment:
+      - MYSQL_PASS=password
+      - MYSQL_HOST=mysql
+    links:
+      - mysql:mysql
+    networks:
+      pushnet: {}
+    ports:
+      - "1330:8000"
+  mysql:
+    image: mysql:latest
+    networks:
+      pushnet: {}
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+networks:
+  pushnet:
+    driver: bridge
